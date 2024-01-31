@@ -12,6 +12,7 @@ import { fieldHookTypes } from '../../utils/constants'
 const fieldHooksGroup = (pluginOptions: DynamicCollectionOptions): Field => {
   const { fieldHooks } = pluginOptions
 
+  // Create a hook selector for each hook type that has hooks loaded
   const hookSelectorFields = fieldHookTypes.reduce((acc, cur) => {
     if (fieldHooks === undefined) {
       return acc
@@ -123,7 +124,6 @@ const fieldsConfig = (pluginOptions: DynamicCollectionOptions): Tab => {
                       type: 'text',
                     },
                     required: true,
-                    // validate: validateField,
                   },
                   {
                     type: 'row',

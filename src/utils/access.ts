@@ -2,8 +2,14 @@
 import type { Access } from 'payload/config'
 import type { FieldAccess } from 'payload/types'
 
+/**
+ * Allow access to all traffic
+ */
 const open: Access | FieldAccess = () => true
 
+/**
+ * Allow access to all authenticated users
+ */
 const allUsers: Access | FieldAccess = async (props: { req: { user: unknown } }) => {
   const {
     req: { user },

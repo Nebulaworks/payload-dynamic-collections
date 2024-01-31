@@ -1,7 +1,7 @@
 import type { Field, Tab } from 'payload/types'
 import type { DynamicCollectionOptions } from '../../types'
 import { collectionHookTypes } from '../../utils/constants'
-import { HookPropsCell } from '../components/HookPropsSelector'
+import { collectionAccess } from '../../utils/access'
 
 export type CollectionHooks = Exclude<DynamicCollectionOptions['collectionHooks'], undefined>
 
@@ -126,12 +126,13 @@ const hookProps = (collectionHooks: CollectionHooks = {}): Field | null => {
 const hooksAndAccessConfig = (pluginOptions: DynamicCollectionOptions): Tab => {
   const { collectionHooks, collectionAccessFunctions } = pluginOptions
 
+  // Get a list of all collection access functions
   const accessFuntionNames = [
-    'open',
-    'allUsers',
+    ...Object.keys(collectionAccess),
     ...(collectionAccessFunctions !== undefined ? Object.keys(collectionAccessFunctions) : []),
   ]
 
+  // Create a hook selector for each hook type that has hooks loaded
   const hookSelectorFields = collectionHookTypes.reduce((acc, cur) => {
     if (collectionHooks === undefined) {
       return acc
@@ -151,6 +152,7 @@ const hooksAndAccessConfig = (pluginOptions: DynamicCollectionOptions): Tab => {
     return [...acc, f]
   }, [] as Field[])
 
+  // Create a field for the hook props selector, if any
   const hooksWithPropsGroup = hookProps(collectionHooks)
 
   return {
@@ -207,6 +209,7 @@ const hooksAndAccessConfig = (pluginOptions: DynamicCollectionOptions): Tab => {
             type: 'collapsible',
             fields: hookSelectorFields,
           },
+          // Add the hook props selector, if any
           ...(hooksWithPropsGroup ? [hooksWithPropsGroup] : []),
         ],
       },

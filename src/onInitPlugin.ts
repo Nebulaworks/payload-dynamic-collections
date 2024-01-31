@@ -50,6 +50,7 @@ export const checkVersion = async (
   const { express: app } = payload
   if (!app) return
 
+  // Get the current version from the `currentVersion` global
   const getCurrentVersion = async (): Promise<string> => {
     const { currentVersion } = await payload.findGlobal({
       slug: 'currentVersion',
@@ -63,6 +64,7 @@ export const checkVersion = async (
     return version
   }
 
+  // Continuously check for version descrepancies
   setInterval(async () => {
     const currentVersion = await getCurrentVersion()
 

@@ -10,8 +10,11 @@ import { Versions, CurrentVersion } from './Versions'
 import { ReadCollectionDefs } from './utils/handleLoadDef'
 import DeriveCollection from './CollectionDerivation'
 
-// type PluginType = (pluginOptions: PluginTypes) => Plugin
-
+/**
+ * This function creates the plugin that adds dynamic collections to the Payload configuration
+ * @param pluginOptions The plugin configuration. Used by this function to set access permissions
+ * @returns the plugin that adds dynamic collections to the Payload configuration
+ */
 export const dynamicCollectionsPlugin =
   (pluginOptions: DynamicCollectionOptions): Plugin =>
   async incomingConfig => {
@@ -24,39 +27,42 @@ export const dynamicCollectionsPlugin =
     // Derive and sanitize dynamic collection definitions
     const derivedCollections = collectionDefinitions.map(collection =>
       DeriveCollection(collection, pluginOptions),
-    )
-    const [sanitizedCollections, collectionErrors] = derivedCollections.reduce(
-      ([cols, errs], cur) => {
-        if (typeof cur === 'string') {
-          return [cols, [...errs, cur]]
-        }
+      )
+      const [sanitizedCollections, collectionErrors] = derivedCollections.reduce(
+        ([cols, errs], cur) => {
+          if (typeof cur === 'string') {
+            return [cols, [...errs, cur]]
+          }
 
-        return [[...cols, cur], errs]
-      },
-      [[] as CollectionConfig[], [] as string[]],
-    )
+          return [[...cols, cur], errs]
+        },
+        [[] as CollectionConfig[], [] as string[]],
+        )
 
+    // Extend the webpack configuration
     const webpack = extendWebpackConfig(incomingConfig)
 
+    // Add dynamic collection information to the admin dashboard
     config.admin = {
       ...(config.admin || {}),
       webpack,
-
       components: {
         ...(config.admin?.components || {}),
 
         // Add dynamic collection information to dashboard
         beforeDashboard: [
           ...(config.admin?.components?.beforeDashboard || []),
-          DisplayCollectionsVersion(version),
+          ...(enabled ? [DisplayCollectionsVersion(version)] : []),
         ],
       },
     }
 
+    // If the plugin is disabled, return the original configuration
     if (enabled === false) {
       return config
     }
 
+    // Add dynamic collection definitions to the Payload configuration
     config.collections = [
       ...(config.collections || []),
       DynamicCollection(pluginOptions),
@@ -64,8 +70,10 @@ export const dynamicCollectionsPlugin =
       ...sanitizedCollections,
     ]
 
+    // Add the current version global to the Payload configuration
     config.globals = [...(config.globals || []), CurrentVersion(pluginOptions)]
 
+    // Add functionality to the onInit function
     config.onInit = async payload => {
       if (incomingConfig.onInit) await incomingConfig.onInit(payload)
 

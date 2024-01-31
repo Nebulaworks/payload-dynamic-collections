@@ -51,7 +51,7 @@ const Versions = (pluginOptions: DynamicCollectionOptions): CollectionConfig => 
             type: 'text',
             required: true,
             unique: true,
-            // defaultValue: '0.0.0',
+            // Sets the default value to the newest version number + 1 patch
             defaultValue: async () => {
               const newestVersion = await getNewestVersion()
               if (!newestVersion) {
@@ -63,6 +63,7 @@ const Versions = (pluginOptions: DynamicCollectionOptions): CollectionConfig => 
             admin: {
               width: '80%',
             },
+            // Validates that the version number is a valid semantic version and that it is greater than the newest version
             validate: async (val, { payload }) => {
               const version = semver.valid(val)
               if (version === null) {
@@ -94,9 +95,9 @@ const Versions = (pluginOptions: DynamicCollectionOptions): CollectionConfig => 
           create: () => false,
         },
         admin: {
-          // editorOptions: {
-          //   readOnly: true,
-          // },
+          editorOptions: {
+            readOnly: true,
+          },
           components: {
             Cell: DisplayCollectionCount,
           },

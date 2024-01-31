@@ -14,6 +14,7 @@ import { emptyVersion } from './constants'
  * @returns The most up-to-date version information and collection definitions
  */
 async function ReadCollectionDefs(path = './dynamicCollections.json'): Promise<Version> {
+  // If the environment is the browser, fetch the current version from the server
   if (jsEnv.isBrowser) {
     const res = await fetch('/api/globals/currentVersion', {
       method: 'GET',
@@ -25,6 +26,8 @@ async function ReadCollectionDefs(path = './dynamicCollections.json'): Promise<V
       !currentVersion || typeof currentVersion === 'string' ? emptyVersion : currentVersion
     return sanitizedCurrentVersion
   }
+
+  // If the environment is Node.js, fetch the current version from the local file system
   if (jsEnv.isNode) {
     try {
       const data = readFileSync(path, 'utf-8')
@@ -50,9 +53,12 @@ async function WriteCollectionDefs(
   path: string,
   payloadInstance: Payload = payload,
 ): Promise<void> {
+  // If the environment is the browser, do nothing
   if (jsEnv.isBrowser) {
     return
   }
+
+  // If the environment is Node.js, write the current version to the local file system
   if (jsEnv.isNode) {
     const { currentVersion } = await payloadInstance.findGlobal({
       slug: 'currentVersion', // required

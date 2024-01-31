@@ -4,6 +4,12 @@ import { sanitizeFieldDef, validateFieldDef } from './validate'
 import { fieldAccess } from '../../utils/access'
 import { ResolveFunction } from '../utils/resolveFunction'
 
+/**
+ * Derives a field configuration from a dynamic field
+ * @param dynamicField The dynamic field to derive from
+ * @param pluginOptions The plugin options passed by the user
+ * @returns The derived field configuration, or an error message
+ */
 const DeriveField = (
   dynamicField: CollectionFieldEntries[0],
   pluginOptions: DynamicCollectionOptions,
@@ -13,6 +19,7 @@ const DeriveField = (
   const { def, access, hooks } = dynamicField
   const defValid = validateFieldDef(def)
 
+  // If the field definition is invalid, return an error message
   if (typeof defValid === 'string') {
     return defValid
   }
@@ -20,7 +27,9 @@ const DeriveField = (
   const accessFunctions = { ...fieldAccess, ...fieldAccessFunctions }
 
   try {
+    // Sanitize the field definition
     const field: Field = sanitizeFieldDef(def as SupportedField)
+    // Resolve the access and hooks functions
     const resolvedAccess =
       access !== undefined
         ? {
@@ -29,7 +38,6 @@ const DeriveField = (
             ...ResolveFunction('update', accessFunctions, access.update ?? ''),
           }
         : {}
-
     const resolvedHooks =
       hooks !== undefined
         ? {
@@ -40,6 +48,7 @@ const DeriveField = (
           }
         : {}
 
+    // Return the derived field configuration
     return {
       ...field,
       access: resolvedAccess,

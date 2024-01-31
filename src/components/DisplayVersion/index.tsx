@@ -3,6 +3,11 @@ import React from 'react'
 import './index.scss'
 import { ReadCollectionDefs } from '../../utils/handleLoadDef'
 
+/**
+ * Display the currently loaded dynamic collections version.
+ * Trigger a page reload if the version is different from the current version.
+ * @param version
+ */
 const DisplayCollectionsVersion = (version: string): React.FC<any> => {
   return () => {
     ReadCollectionDefs().then(({ version: currentVersion }) => {

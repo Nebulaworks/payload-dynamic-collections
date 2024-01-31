@@ -1,12 +1,13 @@
 import type { Hidden } from '../../src/types'
 import type { User } from './payload-types'
 
-// eslint-disable-next-line no-unused-vars
-
 interface hiddenProps {
   user: User
 }
 
+/**
+ * This example hidden only shows the collection in the admin console if the user is an admin
+ */
 const isAdmin: Hidden = props => {
   const { user } = props as hiddenProps
   if (user?.role === 'admin') {

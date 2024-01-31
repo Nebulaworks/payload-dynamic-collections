@@ -1,11 +1,7 @@
-import type {
-  CollectionCollectionFieldHooks,
-  CollectionFieldAccess,
-  // eslint-disable-next-line import/no-unresolved
-} from 'payload/generated-types'
+import type { CollectionFieldAccess, CollectionHooks } from '../../../types'
 
 export interface CollectionTextEditor {
   name?: string
   access?: CollectionFieldAccess
-  hooks?: CollectionCollectionFieldHooks
+  hooks?: CollectionHooks
 }

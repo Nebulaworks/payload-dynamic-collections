@@ -1,6 +1,11 @@
 import type { Config } from 'payload/config'
 import type { Configuration as WebpackConfig } from 'webpack'
 
+/**
+ * Extends the webpack configuration
+ * @param config The Payload configuration
+ * @returns The extended webpack configuration
+ */
 export const extendWebpackConfig =
   (config: Config): ((webpackConfig: WebpackConfig) => WebpackConfig) =>
   webpackConfig => {

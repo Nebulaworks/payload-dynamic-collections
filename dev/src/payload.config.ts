@@ -11,14 +11,17 @@ import { collectionAccess, fieldAccess } from './access'
 import hidden from './hidden'
 import { collectionHooks, fieldHooks } from './hooks'
 
+// Define the options for the dynamic collections plugin
 const dynamicCollectionOptions: DynamicCollectionOptions = {
   enabled: true,
+  // In this example, only admin users can create, view, and edit collections
   access: {
     createVersion: collectionAccess.isAdmin,
     viewVersions: collectionAccess.isAdmin,
     editCollections: collectionAccess.isAdmin,
     viewCollections: collectionAccess.isAdmin,
   },
+
   collectionAccessFunctions: collectionAccess,
   fieldAccessFunctions: fieldAccess,
   hiddenFunctions: hidden,
@@ -30,21 +33,6 @@ const conf: Config = {
   admin: {
     user: Users.slug,
     bundler: webpackBundler(),
-    webpack: config => {
-      const newConfig = {
-        ...config,
-        resolve: {
-          ...config.resolve,
-          alias: {
-            ...(config?.resolve?.alias || {}),
-            react: path.join(__dirname, '../node_modules/react'),
-            'react-dom': path.join(__dirname, '../node_modules/react-dom'),
-            payload: path.join(__dirname, '../node_modules/payload'),
-          },
-        },
-      }
-      return newConfig
-    },
   },
   editor: slateEditor({}),
   collections: [Users],

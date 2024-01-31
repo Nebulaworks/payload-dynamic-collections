@@ -7,6 +7,9 @@ import './index.scss'
 
 const baseClass = 'code-editor'
 
+/**
+ * A code editor component that uses Monaco Editor.
+ */
 const CodeEditor: React.FC<Props> = props => {
   const { className, height, options, readOnly, ...rest } = props
 

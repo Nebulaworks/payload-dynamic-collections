@@ -24,8 +24,6 @@ import type {
   UploadField,
 } from 'payload/types'
 
-export type Hidden = (args: unknown) => boolean
-
 export interface HookWithProps<Hook> {
   /**
    * The `generator` function that takes properties of any given shape and returns a hook.
@@ -152,6 +150,8 @@ export interface DynamicCollectionOptions {
    */
   commonFields?: Field[]
 }
+
+export type Hidden = (args: unknown) => boolean
 
 export type SupportedField = Exclude<
   Field,
