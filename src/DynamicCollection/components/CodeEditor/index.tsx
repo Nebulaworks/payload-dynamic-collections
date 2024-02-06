@@ -3,7 +3,7 @@ import React from 'react'
 
 import type { Props } from './types'
 
-import './index.scss'
+// import './index.scss'
 
 const baseClass = 'code-editor'
 

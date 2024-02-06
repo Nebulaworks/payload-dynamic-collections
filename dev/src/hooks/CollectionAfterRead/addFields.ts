@@ -29,7 +29,7 @@ const addFields: HookWithProps<CollectionAfterReadHook> = {
     const hook: CollectionAfterReadHook = async ({ doc }) => {
       const additionalFields = props.reduce(
         (acc, cur) => ({ ...acc, [cur.fieldName]: cur.fieldValue }),
-        {},
+        {} as Record<string, unknown>,
       )
       return { ...doc, ...additionalFields }
     }

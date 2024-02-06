@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'payload/components/forms'
 
-import './index.scss'
 // eslint-disable-next-line import/no-unresolved
 import CodeEditor from '../CodeEditor'
 import { CollectionTextEditor } from './types'

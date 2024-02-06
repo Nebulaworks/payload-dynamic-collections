@@ -33,6 +33,8 @@ export interface Config {
     users: User;
     dynamicCollection: DynamicCollection;
     versions: Version;
+    survival: Survival;
+    test: Test;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -118,6 +120,28 @@ export interface Version {
     | number
     | boolean
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Survival {
+  id: string;
+  gene_e?: string | null;
+  gene_m?: string | null;
+  indication?: string | null;
+  type?: string | null;
+  model?: string | null;
+  p?: number | null;
+  stat?: number | null;
+  data?: string | null;
+  n?: number | null;
+  n_mut?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Test {
+  id: string;
+  abc?: string | null;
+  b?: number | null;
   updatedAt: string;
   createdAt: string;
 }

@@ -56,7 +56,7 @@ export const checkVersion = async (
       slug: 'currentVersion',
     })
 
-    if (typeof currentVersion === 'string') {
+    if (!currentVersion || typeof currentVersion !== 'object' || !('version' in currentVersion)) {
       return emptyVersion.version
     }
 

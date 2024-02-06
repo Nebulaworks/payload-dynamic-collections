@@ -1,6 +1,5 @@
 import React from 'react'
 
-import './index.scss'
 import { ReadCollectionDefs } from '../../utils/handleLoadDef'
 
 /**

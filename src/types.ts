@@ -24,13 +24,13 @@ import type {
   UploadField,
 } from 'payload/types'
 
-export interface HookWithProps<Hook> {
+export interface HookWithProps<T> {
   /**
    * The `generator` function that takes properties of any given shape and returns a hook.
    * The props are passed to the generator function on rebuild and are set in the admin console
    * entry for the relevant dynamic collection
    */
-  generator: (props: unknown) => Hook
+  generator: (props: unknown) => T
   /**
    * The default properties that populate the corresponding prop input in the admin console.
    * Must be in the shape expected by the generator function

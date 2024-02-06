@@ -41,7 +41,11 @@ const hookProps = (collectionHooks: CollectionHooks = {}): Field | null => {
             admin: {
               // Only show the props selector if the corresponding hook is selected
               condition: data => {
-                const { [hookType]: chosenHooks } = data.hooks
+                const { hooks } = data
+                if (!hooks) {
+                  return false
+                }
+                const { [hookType]: chosenHooks } = hooks
                 if (!chosenHooks) {
                   return false
                 }
@@ -69,7 +73,11 @@ const hookProps = (collectionHooks: CollectionHooks = {}): Field | null => {
         admin: {
           // Only show the hook type if any of the hooks with props are selected
           condition: data => {
-            const { [hookType]: chosenHooks } = data.hooks
+            const { hooks } = data
+                if (!hooks) {
+                  return false
+                }
+                const { [hookType]: chosenHooks } = hooks
             if (!chosenHooks) {
               return false
             }
@@ -98,10 +106,15 @@ const hookProps = (collectionHooks: CollectionHooks = {}): Field | null => {
       hideGutter: true,
       // Only show the hook props if any of the hooks with props are selected
       condition: data => {
+        const { hooks } = data
+        if (!hooks) {
+          return false
+        }
         return (Object.keys(hooksTypeNames) as Array<keyof CollectionHooks>).reduce(
           (accType, typeName) => {
             const hookNames = hooksTypeNames[typeName]
-            const chosenHooks = data.hooks[typeName]
+
+            const chosenHooks = hooks[typeName]
             if (!chosenHooks) {
               return accType
             }

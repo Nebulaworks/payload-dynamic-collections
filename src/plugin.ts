@@ -27,17 +27,17 @@ export const dynamicCollectionsPlugin =
     // Derive and sanitize dynamic collection definitions
     const derivedCollections = collectionDefinitions.map(collection =>
       DeriveCollection(collection, pluginOptions),
-      )
-      const [sanitizedCollections, collectionErrors] = derivedCollections.reduce(
-        ([cols, errs], cur) => {
-          if (typeof cur === 'string') {
-            return [cols, [...errs, cur]]
-          }
+    )
+    const [sanitizedCollections, collectionErrors] = derivedCollections.reduce(
+      ([cols, errs], cur) => {
+        if (typeof cur === 'string') {
+          return [cols, [...errs, cur]]
+        }
 
-          return [[...cols, cur], errs]
-        },
-        [[] as CollectionConfig[], [] as string[]],
-        )
+        return [[...cols, cur], errs]
+      },
+      [[] as CollectionConfig[], [] as string[]],
+    )
 
     // Extend the webpack configuration
     const webpack = extendWebpackConfig(incomingConfig)

@@ -11,7 +11,5 @@ module.exports = {
       },
     },
   ],
-  // excludes: [
-  //   'dev/plugin.spec.ts',
-  // ]
+  excludes: ['dev/plugin.spec.ts', 'dist/**', 'node_modules/**'],
 }
